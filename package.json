@@ -1,0 +1,56 @@
+{
+  "name": "components_js",
+  "version": "1.0.0",
+  "description": "",
+  "main": "Library.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/matlinski/components_js.git"
+  },
+  "keywords": [
+    "js",
+    "components"
+  ],
+  "author": "Mateusz Matlinski",
+  "license": "UNLICENSED",
+  "bugs": {
+    "url": "https://github.com/matlinski/components_js/issues"
+  },
+  "homepage": "https://github.com/matlinski/components_js#readme",
+  "eslintConfig": {
+    "env": {
+      "browser": true,
+      "es6": true
+    },
+    "extends": "eslint:recommended",
+    "globals": {
+      "Atomics": "readonly",
+      "SharedArrayBuffer": "readonly"
+    },
+    "parserOptions": {
+      "ecmaVersion": 2018,
+      "sourceType": "module"
+    },
+    "rules": {
+      "indent": [
+        "error",
+        "tab"
+      ],
+      "linebreak-style": [
+        "error",
+        "unix"
+      ],
+      "quotes": [
+        "error",
+        "single"
+      ],
+      "semi": [
+        "error",
+        "always"
+      ]
+    }
+  }
+}

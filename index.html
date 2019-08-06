@@ -1,48 +1,65 @@
-<!doctype html>
-<html>
+<!-- $GLOBALS["bg-color"] = "50%, 0%, 0%";
+    $GLOBALS["tx-color"] = "100%, 100%, 100%"; -->
+<!DOCTYPE html>
+<html lang="en">
+
 <head>
-<title>CodeMirror: PHP mode</title>
-<meta charset="utf-8"/>
-<link rel=stylesheet href="codemirror/doc/docs.css">
-
-<link rel="stylesheet" href="codemirror/lib/codemirror.css">
-<script src="codemirror/lib/codemirror.js"></script>
-<script src="codemirror/lib/codemirror.js"></script>
-<link rel=stylesheet href="codemirror/theme/cobalt.css">
-<script src="codemirror/addon/edit/matchbrackets.js"></script>
-<script src="codemirror/mode/htmlmixed/htmlmixed.js"></script>
-<script src="codemirror/mode/xml/xml.js"></script>
-<script src="codemirror/mode/javascript/javascript.js"></script>
-<script src="codemirror/mode/css/css.js"></script>
-<script src="codemirror/mode/clike/clike.js"></script>
-<script src="codemirror/mode/php/php.js"></script>
-<style>.CodeMirror {border-top: 1px solid black; border-bottom: 1px solid black;}</style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+        integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
 </head>
+
 <body>
-<textarea id="code" name="code">
-<?php
-$a = array('a' => 1, 'b' => 2, 3 => 'c');
+<textarea name="" class="col bg-dark text-white" id="user-code" cols="30" rows="4"></textarea>
+<div id="result"></div>
 
-echo "$a[a] ${a[3] /* } comment */} {$a[b]} \$a[a]";
+    <script src="https://code.jquery.com/jquery-3.3.1.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+        integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+        crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+        integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+        crossorigin="anonymous"></script>
+    <script type="module">
+        import { Alert, Badge, Breadcrumb, Button, Card, Carousel, Input, Jumbotron, Media, Modal, Navbar, Navs, Scrollspy, Spinner, Toast, HTML } from './library.js'
+        
+        function print(input){
+            let compiler = '';
+            if(input.match(/[\n]/)){
+                input = input.split('\n');
+                input.forEach(function(value){
+                    if(typeof eval(value) === 'string'){
+                        compiler += eval(value);
+                    }
+                })
+            }   else    {
+                if(typeof eval(input) === 'string'){
+                    compiler = eval(input);
+                }
+            }
+            console.log(compiler)
 
-function hello($who) {
-	return "Hello $who!";
-}
-?>
-<script>
-	alert("And here is some JS code"); // also colored
-</script>
-</textarea>
+            return compiler;
+        }
 
-    <script>
-      var editor = CodeMirror.fromTextArea(document.getElementById("code"), {
-        lineNumbers: true,
-        matchBrackets: true,
-        mode: "application/x-httpd-php",
-        theme: 'cobalt',
-        indentUnit: 4,
-        indentWithTabs: true
-      });
+
+
+        $('#user-code').keyup(function (e) {
+            $('#result').html( print($('#user-code').val()));
+        })
     </script>
+    <script>
+        $('body').scrollspy(['target: scroll']);
+        $('#myInput').trigger('focus')
+        $('[data-toggle="popover"]').popover()
+        $('[data-toggle="tooltip"]').tooltip()
+        $('.dropdown-toggle').dropdown()
+        $('.toast').toast('show')
+    </script>
+
 </body>
+
 </html>
