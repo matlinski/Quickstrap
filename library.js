@@ -1,4 +1,4 @@
-import HTML from './utilities/HTML.func.js';
+import HTML from './utilities/html.func.js';
 import Alert from './types/Alert.constructor.js';
 import Badge from './types/Badge.constructor.js';
 import Breadcrumb from './types/Breadcrumb.constructor.js';
