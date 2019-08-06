@@ -65,9 +65,13 @@ function Input(input = '') {
                "line": HTML(
                     'div',
                     `id='${id}' style='width:auto' class='form-group ${global} form-control'`,
-                    ((Array.isArray(label))
+                    ((label)
+                    
+                    ?((Array.isArray(label))
                          ? HTML('label', { 'for': id, 'class': label[1] }, label[0])
                          : HTML('label', { 'for': id }, label)
+                    )
+                    :''
                     ) +
                     HTML(
                          'div',
