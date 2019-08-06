@@ -64,7 +64,7 @@ function Input(input = '') {
                "condition": true,
                "line": HTML(
                     'div',
-                    `id='${id}' style='width:auto' class='form-group ${global} form-control'`,
+                    `id='${id}' style='width:auto' class='form-group ${global}'`,
                     ((label)
                     
                     ?((Array.isArray(label))
@@ -96,113 +96,7 @@ function Input(input = '') {
                          style
                     )) : '')
                )
-          },
-          //  {
-          //       "condition" : is_array(label),
-          //       "line"      : HTML('label', {'for':id, 'class':label[1]}, label[0])
-
-          //  },
-          //  {
-          //       "condition" : !is_array(label),
-          //       "line"      : HTML('label', {'for':id}, label)
-          //  },
-          //  {
-          //       "condition" : true,
-          //       "line"      : HTML(
-          //                          'div',
-          //                          {'class':'input-group','style':'width:auto'}
-          //                               ,((sticker)
-          //                                    ?((Array.isArray(sticker) && sticker[1] !== "append")
-          //                                         ?HTML('div',{'class':'input-group-'.sticker[1]}, sticker[0])+
-          //                                         HTML(tag, 'class="form-control"'.attr_append(attr, base_attr), content)
-          //                                         :HTML(tag, 'class="form-control"'.attr_append(attr, base_attr), content)+
-          //                                         HTML('div',{'class':'input-group-'.sticker[1]}, sticker[0])
-          //                                    )
-          //                                    :HTML('div',{'class':'input-group-prepend'}, sticker)
-          //                               )
-          //                          )
-          //  },
-          //  {
-          //       "condition" : sticker && is_array(sticker),
-          //       "line"      : HTML(tag, 'class="form-control"'.attr_append(attr), content)
-          //  },
-          //  {
-          //       "condition" : sticker && is_array(sticker) && sticker[1] !== "append",
-          //       "line"      : content
-          //  },
-          //  {
-          //       "condition" : sticker && is_array(sticker),
-          //       "line"      : HTML('div',{'class':'input-group-'.sticker[1]}, sticker[0])
-          //  },
-          //  {
-          //       "condition" : sticker && is_array(sticker),
-          //       "line"      : sticker[0]
-          //  },
-          //  {
-          //      "condition" : sticker && is_array(sticker),
-          //      "line"      : HTML('/')
-          //  },
-          //  {
-          //       "condition" : sticker && !is_array(sticker),
-          //       "line"      : HTML('div',{'class':'input-group-prepend'}, sticker)
-          //  },
-          //  {
-          //       "condition" : sticker && !is_array(sticker),
-          //       "line"      : sticker
-          //  },
-          //  {
-          //       "condition" : sticker,
-          //       "line"      : HTML('/')
-          //  },
-          //  {
-          //       "condition" : true,
-          //       "line"      : HTML('/')
-          //  },
-          //  {
-          //      "condition" : tag === "input",
-          //      "line"      : HTML(tag,"class='form-control template' ".attr_append(attr, {
-          //                         "type"              :  "text",
-          //                         "placeholder"       :  "example placeholder",
-          //                         "aria-label"        :  "example",
-          //                         "aria-describedby"  :  "basic-addon",
-          //                         "value"             :  content
-          //                    })
-          //                    )
-          // },
-          //  {
-          //      "condition" : tag !== "input",
-          //      "line"      : HTML(tag,"class='form-control template' ".attr_append(attr, {
-          //                         "type"              :  "text",
-          //                         "placeholder"       :  "example placeholder",
-          //                         "aria-label"        :  "example",
-          //                         "aria-describedby"  :  "basic-addon"
-          //                    })#
-          //                    )
-          // },
-          // {
-          //      "condition" : tag !== "input",
-          //      "line"      : content
-          // },
-          // {
-          //      "condition" : tag !== "input",
-          //      "line"      : HTML(tag,'/')
-          // },
-          //  {
-          //      "condition" : !empty(script),
-          //      "line"      : HTML('script').script.HTML('script','/')
-          // },
-          // {
-          //      "condition" : !empty(style),
-          //      "line"      : HTML('style').style.HTML('style','/')
-          // },
-          //  {
-          //       "condition" : true,
-          //       "line"      : HTML('/')
-          //  },
-          //  {
-          //       "condition" : true,
-          //       "line"      : HTML('/')
-          //  },
+          }
      ]);
 }
 export default Input;
