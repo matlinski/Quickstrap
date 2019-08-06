@@ -21,4 +21,5 @@ function HTML(tag = "div", attr = "", ...content) {
         return compiler;
     }
 }
+
 export default HTML;
