@@ -28,22 +28,7 @@
         import HTML from './utilities/HTML.func.js'
         
         function print(input){
-            let compiler = '';
-            if(input.match(/[\n]/)){
-                input = input.split('\n');
-                input.forEach(function(value){
-                    if(typeof eval(value) === 'string'){
-                        compiler += eval(value);
-                    }
-                })
-            }   else    {
-                if(typeof eval(input) === 'string'){
-                    compiler = eval(input);
-                }
-            }
-            console.log(compiler)
-
-            return compiler;
+            return eval(input);
         }
 
 
