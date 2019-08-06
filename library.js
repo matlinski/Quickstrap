@@ -1,4 +1,4 @@
-import HTML from './utilities/html.func.js';
+// import HTML from './utilities/html.func.js';
 import Alert from './types/Alert.constructor.js';
 import Badge from './types/Badge.constructor.js';
 import Breadcrumb from './types/Breadcrumb.constructor.js';
@@ -17,4 +17,4 @@ import Scrollspy from './types/Scrollspy.constructor.js';
 import Spinner from './types/Spinner.constructor.js';
 import Toast from './types/Toast.constructor.js';
 
-export { HTML, Button, Alert, Badge, Breadcrumb, Card, Carousel, Input, Jumbotron, Media, Modal, Navbar, Navs, Pagination, Progress, Scrollspy, Spinner, Toast}
+export { /*HTML, */Button, Alert, Badge, Breadcrumb, Card, Carousel, Input, Jumbotron, Media, Modal, Navbar, Navs, Pagination, Progress, Scrollspy, Spinner, Toast}
