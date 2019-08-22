@@ -17,9 +17,13 @@
                 background: linear-gradient(180deg, rgba(0, 0, 0, 0.75) 0%, rgba(89,8,67,0.75) 51%,rgba(42,5,57,0.0) 100%);
                 border: 0px;
                 color: white;
-                z-index: 100 !important;
+                z-index: 150 !important;
                 position: fixed;
-                top: 0
+                top: 0;
+            }
+            .type-js:focus{
+                background: linear-gradient(180deg, rgba(60%, 60%, 60%, 0.75) 0%, rgba(158, 84, 138, 0.75) 51%,rgba(88, 68, 95, 0.4) 100%);
+                outline: 0;
             }
             #result{
                 margin-top: 3rem;
@@ -44,9 +48,23 @@
                 align-items: center;
                 transform: translate(-50%, -50%) skew(-5deg, 0deg);
                 background: rgba(0, 0, 0, 0.8);
-                z-index: 200;
+                z-index: 100;
                 padding: 2rem;
                 border-radius: 1rem 0 1rem 0;
+            }
+            .menu::before,
+            .menu::after{
+                content: '';
+                background: rgba(0, 0, 0, 0.2);
+                position: fixed;
+                height: 100vh;
+                width: 30vw;
+            }
+            .menu::before{
+                left: -120%;
+            }
+            .menu::after{
+                left: 130%;
             }
             .menu a{
                 display: block;
@@ -152,6 +170,9 @@
 
          setTimeout(function(){
              window.scrollTo(0,document.body.scrollHeight);
+             $('#result *').each(function(i){
+                 i.attr('tabindex', '-1');
+             })
          }, text.length*typingSpeed+1000)
         
          }//window.scrollTo(0,document.body.scrollHeight);
