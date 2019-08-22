@@ -2,7 +2,6 @@
     $GLOBALS["tx-color"] = "100%, 100%, 100%"; -->
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -10,33 +9,46 @@
     <title>Document</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
         integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+        <style>
+            html{
+                scroll-behavior: smooth;
+            }
+            .type-js{
+                background: linear-gradient(180deg, rgba(0, 0, 0, 0.75) 0%, rgba(89,8,67,0.75) 51%,rgba(42,5,57,0.0) 100%);
+                border: 0px;
+                color: white;
+                z-index: 100 !important;
+                position: fixed;
+                top: 0;
+            }
+            #result{
+                margin-top: 2rem;
+            }
+            #result::before{
+                content: '';
+                position: fixed;
+                top: 0;
+                bottom: 0;
+                left: 0;
+                right: 0;
+                background: linear-gradient(180deg, rgba(42,5,57,0.75) 0%, rgba(89,8,67,0.75) 51%, rgba(226,0,61,0.75) 100%);;
+                z-index: 99;
+            }
+        </style>
 </head>
 
 <body>
-<textarea name="" class="col bg-dark text-white" id="user-code" cols="30" rows="4"></textarea>
+<textarea name="" class="col type-js" id="user-code" rows="2"></textarea>
 <div id="result"></div>
 
-    <script src="https://code.jquery.com/jquery-3.3.1.js"></script>
+    <script src="https://code.jquery.com/jquery-3.3.1.js">
+    </script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
         integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
         crossorigin="anonymous"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
         integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
         crossorigin="anonymous"></script>
-    <script type="module">
-        import { Button, Alert, Badge, Breadcrumb, Card, Carousel, Input, Jumbotron, Media, Modal, Navbar, Navs, Pagination, Progress, Scrollspy, Spinner, Toast/*, HTML */} from './library.js'
-        import HTML from './utilities/HTML.func.js'
-        
-        function print(input){
-            return eval(input);
-        }
-
-
-
-        $('#user-code').keyup(function (e) {
-            $('#result').html( print($('#user-code').val()));
-        })
-    </script>
     <script>
         $('body').scrollspy(['target: scroll']);
         $('#myInput').trigger('focus')
@@ -45,7 +57,36 @@
         $('.dropdown-toggle').dropdown()
         $('.toast').toast('show')
     </script>
+    <script type="module">
+        import { Button, Alert, Badge, Breadcrumb, Card, Carousel, Input, Jumbotron, Media, Modal, Navbar, Navs, Pagination, Progress, Scrollspy, Spinner, Toast/*, HTML */} from './library.js'
+        import HTML from './utilities/HTML.func.js'
 
+        function autoType(text, elementClass, typingSpeed){
+        var thhis = $(elementClass);
+        var text = text.trim().split('');
+        var amntOfChars = text.length;
+        var newString = "";
+        thhis.val("|");
+        setTimeout(function(){
+            thhis.val("");
+            for(var i = 0; i < amntOfChars; i++){
+                (function(i,char){
+                    setTimeout(function() {        
+                    newString += char;
+                    thhis.val(newString);
+                    $('#result').html( eval(newString));
+                    },i*typingSpeed);
+                })(i+1,text[i]);
+            }
+        },1500);
+
+        setTimeout(function(){
+            window.scrollTo(0,document.body.scrollHeight);
+        }, text.length*typingSpeed+1000)
+        
+        }//window.scrollTo(0,document.body.scrollHeight);
+        autoType(`Navbar(['<h1>ExeCorp</h1>'+Navs()])+Carousel({template: 'mb-3'})+'<div class="container">'+'<div class="row d-flex justify-content-around">'+Card()+Card()+Card()+'</div>'+Media()+Media({reverse: true})+Media()+'</div>'`,".type-js",100);
+    </script>
 </body>
 
 </html>
