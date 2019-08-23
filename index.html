@@ -94,6 +94,10 @@
             .hide{
                 opacity: 0;
             }
+            .desaturate{
+                background: linear-gradient(180deg, rgba(87, 68, 68, 0.75) 0%, rgba(199, 164, 189, 0.75) 51%,rgb(255, 255, 255) 100%) !important;
+                color: black;
+            }
         </style>
 </head>
 
@@ -106,9 +110,9 @@
 <div id="result"></div>
 
 <div class="menu col-10 col-md-6 col-lg-4">
-    <a href="login">ACCEDER</a>
-    <a href="register">REGISTRAR</a>
-    <a href="login">MANUAL</a>
+    <a href="#">ACCEDER</a>
+    <a href="#">REGISTRAR</a>
+    <a href="#">MANUAL</a>
 </div>
 
 
@@ -194,11 +198,13 @@
             $('#result').addClass('remove')
             $('.menu').addClass('remove')
             $('.menu').addClass('hide')
+            $('.type-js').addClass('desaturate')
          })
          $('.type-js').blur(function(){
             $('#result').removeClass('remove')             
             $('.menu').removeClass('remove')             
             $('.menu').removeClass('hide')             
+            $('.type-js').removeClass('desaturate')             
          })
          autoType(`Navbar(['<h1>ExeCorp</h1>'+Navs()])+Carousel({template: 'mb-3'})+'<div class="container">'+'<div class="row d-flex justify-content-around">'+Card()+Card()+Card()+'</div>'+Media()+Media({reverse: true})+Media()+'</div>'`,".type-js",100);
     </script>
