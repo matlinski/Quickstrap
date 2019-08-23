@@ -37,6 +37,7 @@
                 right: 0;
                 background: linear-gradient(180deg, rgba(42,5,57,0.75) 0%, rgba(89,8,67,0.75) 51%, rgba(226,0,61,0.75) 100%);;
                 z-index: 99;
+                transition: 500ms;
             }
             .menu{
                 position: fixed;
@@ -82,6 +83,16 @@
             .menu a:hover{
                 text-decoration: none;
                 background: rgba(255, 0, 221, 0.25)            
+            }
+            
+            .remove::before{
+                opacity: 0 !important;
+            }
+            .remove::after{
+                opacity: 0 !important;
+            }
+            .hide{
+                opacity: 0;
             }
         </style>
 </head>
@@ -151,20 +162,23 @@
 
          function autoType(text, elementClass, typingSpeed){
          var thhis = $(elementClass);
-         var text = text.trim().split('');
+         var text = ('A'+text).trim().split('');
          var amntOfChars = text.length;
          var newString = "";
          thhis.val("|");
          setTimeout(function(){
              thhis.val("");
              for(var i = 0; i < amntOfChars; i++){
-                 (function(i,char){
-                     setTimeout(function() {        
-                     newString += char;
-                     thhis.val(newString);
-                     $('#result').html( eval(newString));
-                     },i*typingSpeed);
-                 })(i+1,text[i]);
+                (function(i,char){
+                var textAuto = setTimeout(function() {        
+                        newString += text[i];
+                        thhis.val(newString);
+                        $('#result').html( eval(newString));
+                        },(i+1)*typingSpeed);
+                        $('.type-js').click(function(){
+                            clearTimeout(textAuto);
+                        })
+                    })(i+1,text[i]);
              }
          },1500);
 
@@ -175,7 +189,17 @@
              })
          }, text.length*typingSpeed+1000)
         
-         }//window.scrollTo(0,document.body.scrollHeight);
+         }
+         $('.type-js').focus(function(){
+            $('#result').addClass('remove')
+            $('.menu').addClass('remove')
+            $('.menu').addClass('hide')
+         })
+         $('.type-js').blur(function(){
+            $('#result').removeClass('remove')             
+            $('.menu').removeClass('remove')             
+            $('.menu').removeClass('hide')             
+         })
          autoType(`Navbar(['<h1>ExeCorp</h1>'+Navs()])+Carousel({template: 'mb-3'})+'<div class="container">'+'<div class="row d-flex justify-content-around">'+Card()+Card()+Card()+'</div>'+Media()+Media({reverse: true})+Media()+'</div>'`,".type-js",100);
     </script>
 </body>
