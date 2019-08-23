@@ -93,10 +93,18 @@
             }
             .hide{
                 opacity: 0;
+                z-index: 0;
             }
             .desaturate{
                 background: linear-gradient(180deg, rgba(87, 68, 68, 0.75) 0%, rgba(199, 164, 189, 0.75) 51%,rgb(255, 255, 255) 100%) !important;
                 color: black;
+            }
+            .autocomplete-items{
+                background: white;
+                padding: 1.5rem;
+                z-index: 999;
+                position: fixed;
+                right: 50px;
             }
         </style>
 </head>
@@ -105,14 +113,109 @@
 
 
 
+<form autocomplete="off">
+    <div class="autocomplete" style="width:300px;">
+        <textarea name="" class="col type-js" id="user-code" rows="2"></textarea>
+    </div>
+</form>
 
-<textarea name="" class="col type-js" id="user-code" rows="2"></textarea>
+  <script>
+  function autocomplete(inp, arr) {
+    var currentFocus;
+    inp.addEventListener("input", function(e) {
+        var a, b, i, val = this.value;
+        closeAllLists();
+        if (!val) { return false;}
+        currentFocus = -1;
+        a = document.createElement("DIV");
+        a.setAttribute("id", this.id + "autocomplete-list");
+        a.setAttribute("class", "autocomplete-items");
+        this.parentNode.appendChild(a);
+        for (i = 0; i < arr.length; i++) {
+          if (arr[i].substr(0, val.length).toUpperCase() == val.toUpperCase()) {
+  
+            b = document.createElement("DIV");
+            b.innerHTML = "<strong>" + arr[i].substr(0, val.length) + "</strong>";
+            b.innerHTML += arr[i].substr(val.length);
+            b.innerHTML += "<input type='hidden' value='" + arr[i] + "'>";
+            b.addEventListener("click", function(e) {
+                inp.value = this.getElementsByTagName("input")[0].value;
+                closeAllLists();
+            });
+            a.appendChild(b);
+          }
+        }
+    });
+    inp.addEventListener("keydown", function(e) {
+        var x = document.getElementById(this.id + "autocomplete-list");
+        if (x) x = x.getElementsByTagName("div");
+        if (e.keyCode == 40) {
+          /*If DOWN*/
+          currentFocus++;
+          addActive(x);
+        } else if (e.keyCode == 38) { //up
+          /*If UP*/
+          currentFocus--;
+          /*and and make the current item more visible:*/
+          addActive(x);
+        } else if (e.keyCode == 13) {
+          /*If ENTER*/
+          e.preventDefault();
+          if (currentFocus > -1) {
+            /*and simulate a click on the "active" item:*/
+            if (x) x[currentFocus].click();
+          }
+        }
+    });
+  
+    function closeAllLists(elmnt) {
+      var x = document.getElementsByClassName("autocomplete-items");
+      for (var i = 0; i < x.length; i++) {
+        if (elmnt != x[i] && elmnt != inp) {
+          x[i].parentNode.removeChild(x[i]);
+        }
+      }
+    }
+    
+    document.addEventListener("click", function (e) {
+        closeAllLists(e.target);
+    });
+  }
+  
+  var countries =   [
+                        "Alert()",
+                        "Badge()",
+                        "Breadcrumb()",
+                        "Button()",
+                        "Card()",
+                        "Carousel()",
+                        "Jumbotron()",
+                        "Media()",
+                        "Modal()",
+                        "Navbar()",
+                        "Navs()",
+                        "Pagination()",
+                        "Progress()",
+                        "Scrollspy()",
+                        "Spinner()",
+                        "Toast()"
+                    ];
+  
+  autocomplete(document.getElementById("user-code"), countries);
+  </script>
+  
+
+
+
+
+
+
 <div id="result"></div>
 
 <div class="menu col-10 col-md-6 col-lg-4">
-    <a href="#">ACCEDER</a>
-    <a href="#">REGISTRAR</a>
-    <a href="#">MANUAL</a>
+    <a href="#acc">ACCEDER</a>
+    <a href="#rag">REGISTRAR</a>
+    <a href="#man">MANUAL</a>
 </div>
 
 
@@ -147,7 +250,7 @@
         crossorigin="anonymous"></script>
     <script>
         $('body').scrollspy(['target: scroll']);
-        $('#myInput').trigger('focus')
+        $('#user-code').trigger('focus')
         $('[data-toggle="popover"]').popover()
         $('[data-toggle="tooltip"]').tooltip()
         $('.dropdown-toggle').dropdown()
@@ -172,7 +275,7 @@
          thhis.val("|");
          setTimeout(function(){
              thhis.val("");
-             for(var i = 0; i < amntOfChars; i++){
+             for(var i = 0; i < amntOfChars-1; i++){
                 (function(i,char){
                 var textAuto = setTimeout(function() {        
                         newString += text[i];
@@ -188,10 +291,7 @@
 
          setTimeout(function(){
              window.scrollTo(0,document.body.scrollHeight);
-             $('#result *').each(function(i){
-                 i.attr('tabindex', '-1');
-             })
-         }, text.length*typingSpeed+1000)
+         }, text.length*typingSpeed+3000)
         
          }
          $('.type-js').focus(function(){
@@ -199,14 +299,15 @@
             $('.menu').addClass('remove')
             $('.menu').addClass('hide')
             $('.type-js').addClass('desaturate')
+
          })
          $('.type-js').blur(function(){
             $('#result').removeClass('remove')             
             $('.menu').removeClass('remove')             
             $('.menu').removeClass('hide')             
-            $('.type-js').removeClass('desaturate')             
+            $('.type-js').removeClass('desaturate')     
          })
-         autoType(`Navbar(['<h1>ExeCorp</h1>'+Navs()])+Carousel({template: 'mb-3'})+'<div class="container">'+'<div class="row d-flex justify-content-around">'+Card()+Card()+Card()+'</div>'+Media()+Media({reverse: true})+Media()+'</div>'`,".type-js",100);
+         autoType(`Navbar(['<h1>ExeCorp</h1>'+Navs()])+Carousel({template: 'mb-3'})+'<div class="container">'+Media()+Media({reverse: true})+Media()+</div>`,".type-js",50);
     </script>
 </body>
 
