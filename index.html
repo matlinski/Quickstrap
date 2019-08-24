@@ -109,9 +109,15 @@
                 padding: 0.5rem;
                 font-size: 0.8rem;
             }
-            .autocomplete-items>*:focus,
-            .autocomplete-items>*:hover{
+            .autocomplete-items>*:focus{
+                background: white !important;
+                cursor: pointer;
+            }
+            .autocomplete-active{
                 background: white;
+            }
+            .autocomplete-items>*:hover{
+                background: rgb(177, 216, 177);
                 cursor: pointer;
             }
         </style>
@@ -123,7 +129,7 @@
 
 <form autocomplete="off">
     <div class="autocomplete" style="width:300px;">
-        <textarea name="" class="col-7 type-js" id="user-code" rows="2"></textarea>
+        <textarea name="" class="col type-js" id="user-code" rows="2"></textarea>
     </div>
 </form>
 
@@ -183,6 +189,8 @@
     <script type="module">
         import { Button, Alert, Badge, Breadcrumb, Card, Carousel, Input, Jumbotron, Media, Modal, Navbar, Navs, Pagination, Progress, Scrollspy, Spinner, Toast/*, HTML */} from './library.js'
         import HTML from './utilities/HTML.func.js'
+
+        var helpRequest = true;
 
         $('#user-code').keyup(function (e) {
             $('#result').html( eval($('#user-code').val()));
@@ -254,23 +262,28 @@
         icon = document.createTextNode("×")
         x2.appendChild(icon);
         x2.setAttribute("class", "float-right px-3 py-2 h2");
+        x2.setAttribute("id", "helpDenied");
         a.setAttribute("id", this.id + "autocomplete-list");
         a.setAttribute("class", "autocomplete-items alert alert-success fade show p-0");
         a.appendChild(x);
         a.appendChild(x2);
         this.parentNode.appendChild(a);
+        document.querySelector('#helpDenied').addEventListener('click', function(){
+            helpRequest = false;
+        })
         for (i = 0; i < arr.length; i++) {
           if (val.toUpperCase().includes(arr[i].substr(0, val.length).toUpperCase())) {
   
             b = document.createElement("DIV");
-            b.innerHTML = arrHint[i];
+            if(helpRequest){
+                b.innerHTML = arrHint[i];
+            }
             b.innerHTML += "<input type='hidden' value='" + arrHint[i] + "'>";
             b.addEventListener("click", function(e) {
                 valArray.push(this.getElementsByTagName("input")[0].value)
                 inp.value = valArray.join('+');
                 $('#result').html(eval(valArray.join('+')));
                 closeAllLists();
-                document.querySelector('.type-js').focus(); //doesn't work
             });
             a.appendChild(b);
           }
@@ -282,12 +295,12 @@
         if (e.keyCode == 40) {
           /*If DOWN*/
           currentFocus++;
-          addActive(x);
+          addActive(x, currentFocus);
         } else if (e.keyCode == 38) { //up
           /*If UP*/
           currentFocus--;
           /*and and make the current item more visible:*/
-          addActive(x);
+          addActive(x, currentFocus);
         } else if (e.keyCode == 13) {
           /*If ENTER*/
           e.preventDefault();
@@ -351,7 +364,33 @@
                         "Toast([\"header\", \"body\", \"attr\", \"template\", \"style\"])"
                     ];
 
-  autocomplete(document.getElementById("user-code"), functions, functionsHint);
+
+                    function addActive(x, currentFocus) {
+    /*a function to classify an item as "active":*/
+    if (!x) return false;
+    /*start by removing the "active" class on all items:*/
+    removeActive(x);
+    if (currentFocus >= x.length) currentFocus = 0;
+    if (currentFocus < 0) currentFocus = (x.length - 1);
+    /*add class "autocomplete-active":*/
+    x[currentFocus].classList.add("autocomplete-active");
+  }
+  function removeActive(x) {
+    /*a function to remove the "active" class from all autocomplete items:*/
+    for (var i = 0; i < x.length; i++) {
+      x[i].classList.remove("autocomplete-active");
+    }
+  }
+
+
+
+
+
+
+
+
+
+autocomplete(document.getElementById("user-code"), functions, functionsHint);
 
 document.activeElement.blur();
     </script>
