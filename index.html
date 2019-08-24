@@ -190,7 +190,7 @@
         import { Button, Alert, Badge, Breadcrumb, Card, Carousel, Input, Jumbotron, Media, Modal, Navbar, Navs, Pagination, Progress, Scrollspy, Spinner, Toast/*, HTML */} from './library.js'
         import HTML from './utilities/HTML.func.js'
 
-        var helpRequest = true;
+        var helpRequest = false;
 
         $('#user-code').keyup(function (e) {
             $('#result').html( eval($('#user-code').val()));
@@ -259,18 +259,32 @@
         x.setAttribute("data-dismiss", 'alert');
         x.setAttribute("aria-label", 'close');
         x2.setAttribute("aria-hidden", 'true');
-        icon = document.createTextNode("×")
+        if(helpRequest){
+            x2.setAttribute("id", "helpAccepted");
+            icon = document.createTextNode("×")
+        }   else    {
+            x2.setAttribute("id", "helpDenied");
+            icon = document.createTextNode("?")            
+        }
         x2.appendChild(icon);
         x2.setAttribute("class", "float-right px-3 py-2 h2");
-        x2.setAttribute("id", "helpDenied");
         a.setAttribute("id", this.id + "autocomplete-list");
         a.setAttribute("class", "autocomplete-items alert alert-success fade show p-0");
         a.appendChild(x);
         a.appendChild(x2);
         this.parentNode.appendChild(a);
-        document.querySelector('#helpDenied').addEventListener('click', function(){
-            helpRequest = false;
-        })
+        if(helpRequest){
+            document.querySelector('#helpAccepted').addEventListener('click', function(){
+                helpRequest = false;
+                inp.focus();
+            })
+        }   else{
+            document.querySelector('#helpDenied').addEventListener('click', function(){
+                helpRequest = true;
+                inp.focus();
+            })
+        }
+        
         for (i = 0; i < arr.length; i++) {
           if (val.toUpperCase().includes(arr[i].substr(0, val.length).toUpperCase())) {
   
@@ -284,6 +298,7 @@
                 inp.value = valArray.join('+');
                 $('#result').html(eval(valArray.join('+')));
                 closeAllLists();
+                inp.focus();
             });
             a.appendChild(b);
           }
