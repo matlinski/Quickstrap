@@ -119,99 +119,6 @@
     </div>
 </form>
 
-  <script>
-  function autocomplete(inp, arr) {
-    var currentFocus;
-    inp.addEventListener("input", function(e) {
-        var a, b, i, val = this.value;
-        val = val.split('+');
-        var valArray = val;
-        val = valArray.pop();
-        console.log(valArray);
-        closeAllLists();
-        if (!val) { return false;}
-        currentFocus = -1;
-        a = document.createElement("DIV");
-        a.setAttribute("id", this.id + "autocomplete-list");
-        a.setAttribute("class", "autocomplete-items");
-        this.parentNode.appendChild(a);
-        for (i = 0; i < arr.length; i++) {
-          if (arr[i].substr(0, val.length).toUpperCase() == val.toUpperCase()) {
-  
-            b = document.createElement("DIV");
-            b.innerHTML = "<strong>" + arr[i].substr(0, val.length) + "</strong>";
-            b.innerHTML += arr[i].substr(val.length);
-            b.innerHTML += "<input type='hidden' value='" + arr[i] + "'>";
-            b.addEventListener("click", function(e) {
-                val = '';
-                valArray.forEach(function(i){
-                    val += i;
-                    console.log(val);
-                });
-                inp.value = val+'+'+this.getElementsByTagName("input")[0].value;
-                closeAllLists();
-            });
-            a.appendChild(b);
-          }
-        }
-    });
-    inp.addEventListener("change", function(e) {
-        var x = document.getElementById(this.id + "autocomplete-list");
-        if (x) x = x.getElementsByTagName("div");
-        if (e.keyCode == 40) {
-          /*If DOWN*/
-          currentFocus++;
-          addActive(x);
-        } else if (e.keyCode == 38) { //up
-          /*If UP*/
-          currentFocus--;
-          /*and and make the current item more visible:*/
-          addActive(x);
-        } else if (e.keyCode == 13) {
-          /*If ENTER*/
-          e.preventDefault();
-          if (currentFocus > -1) {
-            /*and simulate a click on the "active" item:*/
-            if (x) x[currentFocus].click();
-          }
-        }
-    });
-  
-    function closeAllLists(elmnt) {
-      var x = document.getElementsByClassName("autocomplete-items");
-      for (var i = 0; i < x.length; i++) {
-        if (elmnt != x[i] && elmnt != inp) {
-          x[i].parentNode.removeChild(x[i]);
-        }
-      }
-    }
-    
-    document.addEventListener("click", function (e) {
-        closeAllLists(e.target);
-    });
-  }
-  
-  var functions =   [
-                        "Alert()",
-                        "Badge()",
-                        "Breadcrumb()",
-                        "Button()",
-                        "Card()",
-                        "Carousel()",
-                        "Jumbotron()",
-                        "Media()",
-                        "Modal()",
-                        "Navbar()",
-                        "Navs()",
-                        "Pagination()",
-                        "Progress()",
-                        "Scrollspy()",
-                        "Spinner()",
-                        "Toast()"
-                    ];
-  
-  autocomplete(document.getElementById("user-code"), functions);
-  </script>
   
 
 
@@ -269,11 +176,8 @@
         import { Button, Alert, Badge, Breadcrumb, Card, Carousel, Input, Jumbotron, Media, Modal, Navbar, Navs, Pagination, Progress, Scrollspy, Spinner, Toast/*, HTML */} from './library.js'
         import HTML from './utilities/HTML.func.js'
 
-        function print(input){
-            return eval(input);
-        }
         $('#user-code').keyup(function (e) {
-            $('#result').html( print($('#user-code').val()));
+            $('#result').html( eval($('#user-code').val()));
         })
 
          function autoType(text, elementClass, typingSpeed){
@@ -317,6 +221,101 @@
             $('.type-js').removeClass('desaturate')     
          })
          autoType(`Navbar(['<h1>ExeCorp</h1>'+Navs()])+Carousel({template: 'mb-3'})+'<div class="container">'+Media()+Media({reverse: true})+Media()+</div>`,".type-js",50);
+
+
+
+
+         function autocomplete(inp, arr) {
+    var currentFocus;
+    inp.addEventListener("input", function(e) {
+        var a, b, i, val = this.value;
+        val = val.split('+');
+        var valArray = val;
+        val = valArray.pop();
+        console.log(valArray);
+        closeAllLists();
+        if (!val) { return false;}
+        currentFocus = -1;
+        a = document.createElement("DIV");
+        a.setAttribute("id", this.id + "autocomplete-list");
+        a.setAttribute("class", "autocomplete-items");
+        this.parentNode.appendChild(a);
+        for (i = 0; i < arr.length; i++) {
+          if (arr[i].substr(0, val.length).toUpperCase() == val.toUpperCase()) {
+  
+            b = document.createElement("DIV");
+            b.innerHTML = "<strong>" + arr[i].substr(0, val.length) + "</strong>";
+            b.innerHTML += arr[i].substr(val.length);
+            b.innerHTML += "<input type='hidden' value='" + arr[i] + "'>";
+            b.addEventListener("click", function(e) {
+                valArray.push(this.getElementsByTagName("input")[0].value)
+                inp.value = valArray.join('+');
+                $('#result').html(eval(valArray.join('+')));
+                closeAllLists();
+            });
+            a.appendChild(b);
+          }
+        }
+    });
+    inp.addEventListener("keydown", function(e) {
+        var x = document.getElementById(this.id + "autocomplete-list");
+        if (x) x = x.getElementsByTagName("div");
+        if (e.keyCode == 40) {
+          /*If DOWN*/
+          currentFocus++;
+          addActive(x);
+        } else if (e.keyCode == 38) { //up
+          /*If UP*/
+          currentFocus--;
+          /*and and make the current item more visible:*/
+          addActive(x);
+        } else if (e.keyCode == 13) {
+          /*If ENTER*/
+          e.preventDefault();
+          if (currentFocus > -1) {
+            /*and simulate a click on the "active" item:*/
+            if (x) x[currentFocus].click();
+          }
+        }
+    });
+  
+    function closeAllLists(elmnt) {
+      var x = document.getElementsByClassName("autocomplete-items");
+      for (var i = 0; i < x.length; i++) {
+        if (elmnt != x[i] && elmnt != inp) {
+          x[i].parentNode.removeChild(x[i]);
+        }
+      }
+    }
+    
+    document.addEventListener("click", function (e) {
+        closeAllLists(e.target);
+    });
+  }
+  
+  var functions =   [
+                        "Alert()",
+                        "Badge()",
+                        "Breadcrumb()",
+                        "Button()",
+                        "Card()",
+                        "Carousel()",
+                        "Input()",
+                        "Jumbotron()",
+                        "Media()",
+                        "Modal()",
+                        "Navbar()",
+                        "Navs()",
+                        "Pagination()",
+                        "Progress()",
+                        "Scrollspy()",
+                        "Spinner()",
+                        "Toast()"
+                    ];
+  
+  autocomplete(document.getElementById("user-code"), functions);
+
+
     </script>
 </body>
 
