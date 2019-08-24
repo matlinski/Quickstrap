@@ -82,7 +82,12 @@ function Pagination(input = '') {
         {
             "condition": true,
             "line": HTML(tag, `id='${id}' class='pagination ${template}' ` + attr_append(attr),
-                f_pagination(links, inter, active)
+                f_pagination(links, inter, active) +
+                ((style && style.length > 0) ? (HTML(
+                    'style',
+                    '',
+                    style
+               )) : '')
             )
         },
     ]);

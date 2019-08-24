@@ -100,11 +100,19 @@
                 color: black;
             }
             .autocomplete-items{
-                background: white;
-                padding: 1.5rem;
                 z-index: 999;
                 position: fixed;
-                right: 50px;
+                top: 0;
+                right: 20px;
+            }
+            .autocomplete-items>div{
+                padding: 0.5rem;
+                font-size: 0.8rem;
+            }
+            .autocomplete-items>*:focus,
+            .autocomplete-items>*:hover{
+                background: white;
+                cursor: pointer;
             }
         </style>
 </head>
@@ -115,7 +123,7 @@
 
 <form autocomplete="off">
     <div class="autocomplete" style="width:300px;">
-        <textarea name="" class="col type-js" id="user-code" rows="2"></textarea>
+        <textarea name="" class="col-7 type-js" id="user-code" rows="2"></textarea>
     </div>
 </form>
 
@@ -220,38 +228,49 @@
             $('.menu').removeClass('hide')             
             $('.type-js').removeClass('desaturate')     
          })
-         autoType(`Navbar(['<h1>ExeCorp</h1>'+Navs()])+Carousel({template: 'mb-3'})+'<div class="container">'+Media()+Media({reverse: true})+Media()+</div>`,".type-js",50);
+         autoType(`Navbar(['<h1>ExeCorp</h1>'+Navs()])+Carousel({template: 'mb-3'})+'<div class="container">'+Media()+Media({reverse: true})+Media()+'</div>'`,".type-js",50);
 
 
 
 
-         function autocomplete(inp, arr) {
+         function autocomplete(inp, arr, arrHint) {
     var currentFocus;
     inp.addEventListener("input", function(e) {
-        var a, b, i, val = this.value;
+        var a, b, i, icon, val = this.value;
         val = val.split('+');
         var valArray = val;
         val = valArray.pop();
-        console.log(valArray);
         closeAllLists();
         if (!val) { return false;}
         currentFocus = -1;
         a = document.createElement("DIV");
+        var x = document.createElement("button");
+        var x2 = document.createElement("b");
+        x.setAttribute("type", 'button');
+        x.setAttribute("class", 'close');
+        x.setAttribute("data-dismiss", 'alert');
+        x.setAttribute("aria-label", 'close');
+        x2.setAttribute("aria-hidden", 'true');
+        icon = document.createTextNode("×")
+        x2.appendChild(icon);
+        x2.setAttribute("class", "float-right px-3 py-2 h2");
         a.setAttribute("id", this.id + "autocomplete-list");
-        a.setAttribute("class", "autocomplete-items");
+        a.setAttribute("class", "autocomplete-items alert alert-success fade show p-0");
+        a.appendChild(x);
+        a.appendChild(x2);
         this.parentNode.appendChild(a);
         for (i = 0; i < arr.length; i++) {
-          if (arr[i].substr(0, val.length).toUpperCase() == val.toUpperCase()) {
+          if (val.toUpperCase().includes(arr[i].substr(0, val.length).toUpperCase())) {
   
             b = document.createElement("DIV");
-            b.innerHTML = "<strong>" + arr[i].substr(0, val.length) + "</strong>";
-            b.innerHTML += arr[i].substr(val.length);
-            b.innerHTML += "<input type='hidden' value='" + arr[i] + "'>";
+            b.innerHTML = arrHint[i];
+            b.innerHTML += "<input type='hidden' value='" + arrHint[i] + "'>";
             b.addEventListener("click", function(e) {
                 valArray.push(this.getElementsByTagName("input")[0].value)
                 inp.value = valArray.join('+');
                 $('#result').html(eval(valArray.join('+')));
                 closeAllLists();
+                document.querySelector('.type-js').focus(); //doesn't work
             });
             a.appendChild(b);
           }
@@ -294,26 +313,45 @@
   }
   
   var functions =   [
-                        "Alert()",
-                        "Badge()",
-                        "Breadcrumb()",
-                        "Button()",
-                        "Card()",
-                        "Carousel()",
-                        "Input()",
-                        "Jumbotron()",
-                        "Media()",
-                        "Modal()",
-                        "Navbar()",
-                        "Navs()",
-                        "Pagination()",
-                        "Progress()",
-                        "Scrollspy()",
-                        "Spinner()",
-                        "Toast()"
+                        "Alert",
+                        "Badge",
+                        "Breadcrumb",
+                        "Button",
+                        "Card",
+                        "Carousel",
+                        "Input",
+                        "Jumbotron",
+                        "Media",
+                        "Modal",
+                        "Navbar",
+                        "Navs",
+                        "Pagination",
+                        "Progress",
+                        "Scrollspy",
+                        "Spinner",
+                        "Toast"
                     ];
-  
-  autocomplete(document.getElementById("user-code"), functions);
+            var functionsHint =   [
+                        "Alert([\"content\", \"tag\", \"attr\", \"template\", \"dismisable\", \"style\"])",
+                        "Badge([\"content\", \"tag\", \"attr\", \"template\", \"style\"])",
+                        "Breadcrumb([[\"content\"], \"attr\", \"template\", \"separator\", \"style\"])",
+                        "Button([\"content\", \"tag\", \"attr\", \"template\", \"tooltip\", \"dropdown\", \"popover\", \"collapse\", \"style\"])",
+                        "Card([\"content\", \"tag\", \"attr\", \"template\", \"image\", \"style\"])",
+                        "Carousel([[\"content\"], \"tag\", \"attr\", \"template\", \"active\", \"controls\", \"indicators\", \"interval\", \"style\"])",
+                        "Input([\"content\", \"tag\", \"attr\", \"template\", \"label\", \"sticker\", \"global\", \"style\"])",
+                        "Jumbotron([\"header\", \"body\", \"tag\", \"attr\", \"template\", \"style\"])",
+                        "Media([\"content\", \"image\", \"tag\", \"attr\", \"template\", \"reverse\", \"style\"])",
+                        "Modal([\"header\", \"body\", \"footer\", \"tag\", \"attr\", \"template\", trigger_id, \"style\"])",
+                        "Navbar([\"content\", \"tag\", \"attr\", \"template\", \"style\"])",
+                        "Navs([[\"content\"], \"tag\", \"attr\", \"template\", \"active\", \"disabled\", \"style\"])",
+                        "Pagination([[\"content\"], \"tag\", \"attr\", \"template\", \"active\", \"inter\", \"style\"])",
+                        "Progress([\"progress\", \"attr\", \"template\", \"min\", \"max\", \"percent\", \"style\"])",
+                        "Scrollspy([[\"content\"], \"tag\", \"attr\", \"template\", \"reference_id\", \"style\"])",
+                        "Spinner([\"radius\", \"attr\", \"template\", \"style\"])",
+                        "Toast([\"header\", \"body\", \"attr\", \"template\", \"style\"])"
+                    ];
+
+  autocomplete(document.getElementById("user-code"), functions, functionsHint);
 
 document.activeElement.blur();
     </script>
