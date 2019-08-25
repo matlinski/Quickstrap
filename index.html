@@ -286,9 +286,8 @@
         }
         
         for (i = 0; i < arr.length; i++) {
-          if (val.toUpperCase().includes(arr[i].substr(0, val.length).toUpperCase())) {
-  
             b = document.createElement("DIV");
+          if (val.toUpperCase().includes(arr[i].substr(0, val.length).toUpperCase()) && !(val.includes('<') || val.includes('>'))) {
             if(helpRequest){
                 b.innerHTML = arrHint[i];
             }
@@ -301,6 +300,8 @@
                 inp.focus();
             });
             a.appendChild(b);
+          } else if(val.match(arr[arr.length - 1])){
+              console.log(arrHint[arrHint.length - 1])
           }
         }
     });
@@ -357,7 +358,8 @@
                         "Progress",
                         "Scrollspy",
                         "Spinner",
-                        "Toast"
+                        "Toast",
+                        /<+\s*?(\w)[^ >]+\s?>/ig
                     ];
             var functionsHint =   [
                         "Alert([\"content\", \"tag\", \"attr\", \"template\", \"dismisable\", \"style\"])",
@@ -376,7 +378,8 @@
                         "Progress([\"progress\", \"attr\", \"template\", \"min\", \"max\", \"percent\", \"style\"])",
                         "Scrollspy([[\"content\"], \"tag\", \"attr\", \"template\", \"reference_id\", \"style\"])",
                         "Spinner([\"radius\", \"attr\", \"template\", \"style\"])",
-                        "Toast([\"header\", \"body\", \"attr\", \"template\", \"style\"])"
+                        "Toast([\"header\", \"body\", \"attr\", \"template\", \"style\"])",
+                        "HTML(\"div\",\"attr\", \"children\")"
                     ];
 
 
