@@ -64,12 +64,16 @@ html {
 .menu::after {
     left: 130%;
 }
-
-.menu a {
-    display: block;
-    padding: 2rem 0;
+.menu>div{
+    display: flex;
     width: 100%;
+}
+.menu input,
+.menu button,
+.menu a {
     border: yellow solid 1px;
+    padding: 0.5rem 0;
+    width: 100%;
     border-radius: 4px;
     font-size: 1.5rem;
     color: yellow;
@@ -77,9 +81,13 @@ html {
     transition: 500ms;
     background: rgba(0, 0, 0, 0.5)
 }
+.menu input,
+.menu button{
+    width: 50%;
+}
 
-.menu a:hover,
-.menu a:hover {
+.main-menu__item:hover,
+.main-menu__item:focus {
     text-decoration: none;
     background: rgba(255, 0, 221, 0.25)
 }
