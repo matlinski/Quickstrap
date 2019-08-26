@@ -324,19 +324,21 @@
                         }
                     }
                 } else {
-                    b = document.createElement("DIV");
-                    if (helpRequest) {
-                        b.innerHTML = arrHint[arrHint.length - 1].replace('tag', val.match(arr[arr.length - 1])[1])
-                    }
-                    b.innerHTML += "<input type='hidden' value='" + arrHint[arrHint.length - 1].replace('tag', val.match(arr[arr.length - 1])[1]) + "'>";
-                    b.addEventListener("click", function (e) {
-                        valArray.push(this.getElementsByTagName("input")[0].value)
-                        inp.value = valArray.join('+');
-                        $('#result').html(eval(valArray.join('+')));
-                        closeAllLists();
-                        inp.focus();
-                    });
-                    a.appendChild(b);
+                    let {tag, attr, inner} =  val.match(arr[arr.length - 1])['groups'];
+                    let htmlSuggestion = `HTML(\`${tag}\`,\`${attr}\`, \`${inner}\`)`
+                     b = document.createElement("DIV");
+                     if (helpRequest) {
+                         b.innerHTML = htmlSuggestion;
+                     }
+                     b.innerHTML += "<input type='hidden' value='" + htmlSuggestion + "'>";
+                     b.addEventListener("click", function (e) {
+                         valArray.push(this.getElementsByTagName("input")[0].value)
+                         inp.value = valArray.join('+');
+                         $('#result').html(eval(valArray.join('+')));
+                         closeAllLists();
+                         inp.focus();
+                     });
+                     a.appendChild(b);
                 }
             });
             inp.addEventListener("keydown", function (e) {
@@ -393,7 +395,7 @@
             "Scrollspy",
             "Spinner",
             "Toast",
-            /(?:<)(\w+)(?:>)/i //(?:<)(\w+)\s?(\w+| \w+=(?:"|')[^"'].*[^"'](?:"|'))?(?:>)
+            /\s*<\s*(?<tag>\w+)\s*(?<attr>.*?)\s*>\s*(?<inner>.*)/i
         ];
         var functionsHint = [
             "Alert([\"content\", \"tag\", \"attr\", \"template\", \"dismisable\", \"style\"])",
@@ -412,8 +414,7 @@
             "Progress([\"progress\", \"attr\", \"template\", \"min\", \"max\", \"percent\", \"style\"])",
             "Scrollspy([[\"content\"], \"tag\", \"attr\", \"template\", \"reference_id\", \"style\"])",
             "Spinner([\"radius\", \"attr\", \"template\", \"style\"])",
-            "Toast([\"header\", \"body\", \"attr\", \"template\", \"style\"])",
-            "HTML(\"tag\",\"attr\", \"children\")"
+            "Toast([\"header\", \"body\", \"attr\", \"template\", \"style\"])"
         ];
 
 
